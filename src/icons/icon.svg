@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Background -->
+  <rect width="128" height="128" rx="20" fill="#1a6635"/>
+
+  <!-- IC chip body -->
+  <rect x="36" y="36" width="56" height="56" rx="5" fill="white"/>
+
+  <!-- Chip pins – top -->
+  <rect x="48" y="22" width="8" height="14" rx="3" fill="white"/>
+  <rect x="72" y="22" width="8" height="14" rx="3" fill="white"/>
+
+  <!-- Chip pins – bottom -->
+  <rect x="48" y="92" width="8" height="14" rx="3" fill="white"/>
+  <rect x="72" y="92" width="8" height="14" rx="3" fill="white"/>
+
+  <!-- Chip pins – left -->
+  <rect x="22" y="48" width="14" height="8" rx="3" fill="white"/>
+  <rect x="22" y="72" width="14" height="8" rx="3" fill="white"/>
+
+  <!-- Chip pins – right -->
+  <rect x="92" y="48" width="14" height="8" rx="3" fill="white"/>
+  <rect x="92" y="72" width="14" height="8" rx="3" fill="white"/>
+
+  <!-- Upload arrow inside chip -->
+  <path d="M64 46 L76 62 H69 V80 H59 V62 H52 Z" fill="#1a6635"/>
+</svg>

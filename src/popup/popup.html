@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Part-DB Browser Plugin</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+    <header class="header">
+        <img src="../icons/icon-48.png" alt="" class="logo" width="28" height="28">
+        <span class="header-title">Part-DB</span>
+    </header>
+
+    <main>
+        <div id="state-unconfigured" class="state hidden">
+            <p class="info-text">Part-DB URL is not configured yet.</p>
+            <button id="open-options" class="btn btn-primary btn-block">Open Settings</button>
+        </div>
+
+        <div id="state-configured" class="state hidden">
+            <div class="url-badge">
+                <span class="url-label">Connected to</span>
+                <span id="partdb-url" class="url-value"></span>
+            </div>
+            <button id="submit-btn" class="btn btn-primary btn-block">
+                <span class="btn-icon">↑</span>
+                Submit Page to Part-DB
+            </button>
+            <div id="status" class="status hidden"></div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <button id="footer-options" class="link-btn">Settings</button>
+        <span class="footer-sep">·</span>
+        <a id="footer-partdb" href="#" target="_blank" class="link-btn">Open Part-DB</a>
+    </footer>
+
+    <script src="popup.js"></script>
+</body>
+</html>

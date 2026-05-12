@@ -1,0 +1,5 @@
+# Generated icons (recreated by generate.py at build time)
+src/icons/icon-*.png
+
+# Build output
+*.zip
