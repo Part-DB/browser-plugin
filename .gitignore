@@ -3,3 +3,6 @@ src/icons/icon-*.png
 
 # Build output
 *.zip
+
+.claude/
+.idea/
