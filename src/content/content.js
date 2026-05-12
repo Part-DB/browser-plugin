@@ -3,6 +3,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         sendResponse({
             html: document.documentElement.outerHTML,
             url: location.href,
+            title: document.title,
         });
     }
 });

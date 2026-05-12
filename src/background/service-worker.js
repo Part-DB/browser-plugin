@@ -1,11 +1,11 @@
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.action === 'submit') {
-        handleSubmit(message.html, message.url).then(sendResponse);
+        handleSubmit(message.html, message.url, message.title).then(sendResponse);
         return true; // keep message channel open for async response
     }
 });
 
-async function handleSubmit(html, url) {
+async function handleSubmit(html, url, title) {
     const { partdbUrl, partdbLocale } = await chrome.storage.sync.get({
         partdbUrl: '',
         partdbLocale: 'en',
@@ -24,7 +24,7 @@ async function handleSubmit(html, url) {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ html, url }),
+            body: JSON.stringify({ html, url, title }),
         });
 
         if (response.status === 401 || response.status === 403) {

@@ -55,6 +55,7 @@ async function doSubmit() {
             action: 'submit',
             html: pageData.html,
             url: pageData.url,
+            title: pageData.title,
         });
 
         if (result.success) {
