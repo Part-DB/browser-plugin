@@ -37,7 +37,7 @@
   },
   "browser_specific_settings": {
     "gecko": {
-      "id": "partdb-browser-plugin@jan-boehmer.de",
+      "id": "browser-plugin@part-db.de",
       "strict_min_version": "109.0"
     }
   }
