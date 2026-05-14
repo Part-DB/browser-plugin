@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Part-DB Browser Plugin",
+  "name": "Part-DB Page Submitter",
   "version": "1.0.0",
   "description": "Submit product pages to Part-DB to quickly create electronic parts from web content.",
   "permissions": ["storage", "tabs", "activeTab"],
