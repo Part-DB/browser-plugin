@@ -17,7 +17,8 @@
     "default_title": "__MSG_ext_action_title__"
   },
   "background": {
-    "service_worker": "background/service-worker.js"
+    "service_worker": "background/service-worker.js",
+    "scripts": ["background/service-worker.js"]
   },
   "content_scripts": [
     {
