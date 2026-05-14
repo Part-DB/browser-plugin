@@ -13,7 +13,7 @@ The extension sends the already-loaded page HTML, so Part-DB never needs to fetc
 
 ## Requirements
 
-- Part-DB **v1.x** with the browser plugin backend (available from the `browser_plugin` branch / a future release)
+- Part-DB server v2.12+ with browser plugin support enabled
 - Chrome 109+ or Firefox 109+
 
 ## Installation
