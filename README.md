@@ -58,11 +58,14 @@ Use the **Test Connection** button to verify the URL is reachable and you are lo
 
 ## Permissions
 
-| Permission | Reason |
-|------------|--------|
-| `storage` | Saves your Part-DB URL and locale setting |
-| `activeTab` | Allows messaging the content script on the active page |
-| `optional_host_permissions: <all_urls>` | Required to POST page HTML to your Part-DB instance with session cookies (cross-origin fetch with credentials) |
+| Permission | Type | Reason |
+|------------|------|--------|
+| `storage` | Required | Saves your Part-DB URL and locale setting |
+| `activeTab` | Required | Reads the page HTML on demand when you click Submit |
+| `scripting` | Required | Executes the page-reading code in the active tab |
+| Host access to your Part-DB URL | Optional — granted when you save your server URL | Required to reach your Part-DB instance; scoped to exactly the URL you configure |
+
+No host permissions are requested at install time. The extension has no passive presence on web pages — it reads page content only at the moment you click Submit.
 
 ## Building
 

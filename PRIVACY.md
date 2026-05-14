@@ -1,6 +1,6 @@
 # Privacy Policy — Part-DB Browser Extension
 
-**Last updated: 2026-05-14**
+**Last updated: 2026-05-15**
 
 ## Summary
 
@@ -30,6 +30,8 @@ When you click **Submit** in the popup, the extension reads the following data f
 - The page URL
 - The page title
 
+The page is read only at the moment you click Submit — the extension has no passive presence on web pages and does not monitor browsing activity.
+
 This data is sent via an authenticated HTTPS POST request to your own Part-DB server only. It is not sent to the extension developer, any analytics service, or any other third party.
 
 The extension also makes a GET request to your Part-DB server to fetch the list of available info-providers (e.g., to populate the provider dropdown). This request includes your browser's session cookies for that server so that Part-DB can authenticate you.
@@ -45,11 +47,14 @@ The extension does not:
 
 ## Permissions justification
 
-| Permission | Why it is needed |
-|---|---|
-| `storage` | Save your server URL and locale preference |
-| `activeTab` | Inject the content script to read the page HTML when you click Submit |
-| `optional_host_permissions: <all_urls>` | Part-DB can be hosted at any URL; the extension must be able to reach whichever address you configure |
+| Permission | Type | Why it is needed |
+|---|---|---|
+| `storage` | Required | Save your server URL and locale preference |
+| `activeTab` | Required | Read the page HTML on demand when you click Submit |
+| `scripting` | Required | Execute the page-reading code in the active tab when you click Submit |
+| Host access to your Part-DB URL | Optional — granted when you save your server URL | Allows the extension to make requests to your Part-DB server; scoped to exactly the URL you configure |
+
+The extension requests no host permissions at install time. When you save your Part-DB server URL in the settings, the browser will ask you to grant access to that specific address only.
 
 ## Contact
 
