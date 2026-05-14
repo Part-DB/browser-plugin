@@ -59,8 +59,9 @@ async function loadProviders() {
 
     const providers = url_providers ?? [];
 
+    const select = document.getElementById('provider-select');
+
     if (providers.length > 0) {
-        const select = document.getElementById('provider-select');
         for (const p of providers) {
             const opt = document.createElement('option');
             opt.value = p.id;
@@ -69,6 +70,15 @@ async function loadProviders() {
         }
         fieldEl.classList.remove('hidden');
     }
+
+    const { lastProvider } = await chrome.storage.local.get({ lastProvider: '' });
+    if ([...select.options].some(o => o.value === lastProvider)) {
+        select.value = lastProvider;
+    }
+
+    select.addEventListener('change', () => {
+        chrome.storage.local.set({ lastProvider: select.value });
+    });
 
     btn.disabled = false;
 }
