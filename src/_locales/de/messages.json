@@ -139,6 +139,15 @@
   "options_locale_hint": {
     "message": "Sprachcode in URLs (z. B. <code>de</code>, <code>en</code>, <code>fr</code>). Prüfen Sie Ihre Part-DB-URL, um den Code zu finden. Standard ist <code>en</code>."
   },
+  "options_locale_suggestion": {
+    "message": "Erkannte Browser-Sprache: $LOCALE$. ",
+    "placeholders": {
+      "locale": { "content": "$1", "example": "de" }
+    }
+  },
+  "options_locale_use_suggestion": {
+    "message": "Übernehmen"
+  },
   "options_save_btn": {
     "message": "Einstellungen speichern"
   },

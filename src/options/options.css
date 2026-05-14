@@ -107,6 +107,16 @@ input:invalid:not(:placeholder-shown) {
     font-size: 11px;
 }
 
+.locale-suggestion-link {
+    color: #1a6635;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.locale-suggestion-link:hover {
+    color: #155229;
+}
+
 /* Actions */
 .form-actions {
     display: flex;

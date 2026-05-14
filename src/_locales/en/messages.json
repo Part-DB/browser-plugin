@@ -139,6 +139,15 @@
   "options_locale_hint": {
     "message": "Language code used in URLs (e.g. <code>en</code>, <code>de</code>, <code>fr</code>). Check your Part-DB URL to find your locale. Defaults to <code>en</code>."
   },
+  "options_locale_suggestion": {
+    "message": "Detected browser locale: $LOCALE$. ",
+    "placeholders": {
+      "locale": { "content": "$1", "example": "de" }
+    }
+  },
+  "options_locale_use_suggestion": {
+    "message": "Use this"
+  },
   "options_save_btn": {
     "message": "Save Settings"
   },

@@ -1,13 +1,32 @@
+function browserLocaleCode() {
+    return chrome.i18n.getUILanguage().split(/[-_]/)[0].toLowerCase();
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
     applyI18n();
 
+    const suggestedLocale = browserLocaleCode();
+
     const { partdbUrl, partdbLocale } = await chrome.storage.sync.get({
         partdbUrl: '',
-        partdbLocale: 'en',
+        partdbLocale: suggestedLocale,
     });
 
     document.getElementById('partdb-url').value = partdbUrl;
     document.getElementById('partdb-locale').value = partdbLocale;
+
+    const suggestionEl = document.getElementById('locale-suggestion');
+    if (suggestionEl) {
+        suggestionEl.textContent = chrome.i18n.getMessage('options_locale_suggestion', [suggestedLocale]);
+        const useLink = document.getElementById('locale-use-suggestion');
+        if (useLink) {
+            useLink.textContent = chrome.i18n.getMessage('options_locale_use_suggestion');
+            useLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                document.getElementById('partdb-locale').value = suggestedLocale;
+            });
+        }
+    }
 
     document.getElementById('settings-form').addEventListener('submit', saveSettings);
     document.getElementById('test-btn').addEventListener('click', testConnection);
