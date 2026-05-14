@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Part-DB Browser Plugin – Settings</title>
+    <title data-i18n="options_title">Part-DB Browser Plugin – Settings</title>
     <link rel="stylesheet" href="options.css">
 </head>
 <body>
@@ -11,38 +11,40 @@
         <header class="page-header">
             <img src="../icons/icon-48.png" alt="" width="36" height="36">
             <div>
-                <h1>Part-DB Browser Plugin</h1>
-                <p class="subtitle">Settings</p>
+                <h1 data-i18n="options_heading">Part-DB Browser Plugin</h1>
+                <p class="subtitle" data-i18n="options_subtitle">Settings</p>
             </div>
         </header>
 
         <form id="settings-form">
             <div class="card">
-                <h2 class="card-title">Connection</h2>
+                <h2 class="card-title" data-i18n="options_connection_title">Connection</h2>
 
                 <div class="form-group">
-                    <label for="partdb-url">Part-DB base URL</label>
+                    <label for="partdb-url" data-i18n="options_url_label">Part-DB base URL</label>
                     <input
                         type="url"
                         id="partdb-url"
                         name="partdbUrl"
+                        data-i18n-placeholder="options_url_placeholder"
                         placeholder="https://partdb.example.com"
                         required
                     >
-                    <p class="form-hint">The root URL of your Part-DB instance (without trailing slash).</p>
+                    <p class="form-hint" data-i18n="options_url_hint">The root URL of your Part-DB instance (without trailing slash).</p>
                 </div>
 
                 <div class="form-group">
-                    <label for="partdb-locale">Interface locale</label>
+                    <label for="partdb-locale" data-i18n="options_locale_label">Interface locale</label>
                     <input
                         type="text"
                         id="partdb-locale"
                         name="partdbLocale"
+                        data-i18n-placeholder="options_locale_placeholder"
                         placeholder="en"
                         maxlength="10"
                         pattern="[a-z]{2}(_[A-Z]{2})?"
                     >
-                    <p class="form-hint">
+                    <p class="form-hint" data-i18n-html="options_locale_hint">
                         Language code used in URLs (e.g. <code>en</code>, <code>de</code>, <code>fr</code>).
                         Check your Part-DB URL to find your locale. Defaults to <code>en</code>.
                     </p>
@@ -50,8 +52,8 @@
             </div>
 
             <div class="form-actions">
-                <button type="submit" class="btn btn-primary">Save Settings</button>
-                <button type="button" id="test-btn" class="btn btn-secondary">Test Connection</button>
+                <button type="submit" class="btn btn-primary" data-i18n="options_save_btn">Save Settings</button>
+                <button type="button" id="test-btn" class="btn btn-secondary" data-i18n="options_test_btn">Test Connection</button>
                 <span id="save-status" class="save-status hidden"></span>
             </div>
         </form>
@@ -59,6 +61,7 @@
         <div id="test-result" class="test-result hidden"></div>
     </div>
 
+    <script src="../i18n.js"></script>
     <script src="options.js"></script>
 </body>
 </html>

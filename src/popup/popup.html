@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Part-DB Browser Plugin</title>
+    <title data-i18n="popup_title">Part-DB Browser Plugin</title>
     <link rel="stylesheet" href="popup.css">
 </head>
 <body>
@@ -14,43 +14,44 @@
 
     <main>
         <div id="state-unconfigured" class="state hidden">
-            <p class="info-text">Part-DB URL is not configured yet.</p>
-            <button id="open-options" class="btn btn-primary btn-block">Open Settings</button>
+            <p class="info-text" data-i18n="popup_unconfigured_text">Part-DB URL is not configured yet.</p>
+            <button id="open-options" class="btn btn-primary btn-block" data-i18n="popup_open_settings">Open Settings</button>
         </div>
 
         <div id="state-configured" class="state hidden">
             <div class="url-badge">
-                <span class="url-label">Connected to</span>
+                <span class="url-label" data-i18n="popup_connected_to">Connected to</span>
                 <span id="instance-name" class="instance-name hidden"></span>
                 <span id="partdb-url" class="url-value"></span>
                 <span id="instance-user" class="instance-user hidden"></span>
             </div>
 
             <div id="info-section">
-                <div id="info-loading" class="info-loading">Loading…</div>
+                <div id="info-loading" class="info-loading" data-i18n="popup_loading">Loading…</div>
                 <div id="info-error" class="info-error hidden"></div>
                 <div id="provider-field" class="hidden">
-                    <label for="provider-select" class="field-label">Info Provider</label>
+                    <label for="provider-select" class="field-label" data-i18n="popup_provider_label">Info Provider</label>
                     <select id="provider-select" class="select">
-                        <option value="">None (store only)</option>
+                        <option value="" data-i18n="popup_provider_none">None (store only)</option>
                     </select>
                 </div>
             </div>
 
             <button id="submit-btn" class="btn btn-primary btn-block" disabled>
                 <span class="btn-icon">↑</span>
-                Submit Page to Part-DB
+                <span data-i18n="popup_submit_btn">Submit Page to Part-DB</span>
             </button>
             <div id="status" class="status hidden"></div>
         </div>
     </main>
 
     <footer class="footer">
-        <button id="footer-options" class="link-btn">Settings</button>
+        <button id="footer-options" class="link-btn" data-i18n="popup_footer_settings">Settings</button>
         <span class="footer-sep">·</span>
-        <a id="footer-partdb" href="#" target="_blank" class="link-btn">Open Part-DB</a>
+        <a id="footer-partdb" href="#" target="_blank" class="link-btn" data-i18n="popup_footer_open_partdb">Open Part-DB</a>
     </footer>
 
+    <script src="../i18n.js"></script>
     <script src="popup.js"></script>
 </body>
 </html>

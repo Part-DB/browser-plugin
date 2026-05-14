@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', async () => {
+    applyI18n();
+
     const { partdbUrl, partdbLocale } = await chrome.storage.sync.get({
         partdbUrl: '',
         partdbLocale: 'en',
@@ -20,7 +22,7 @@ async function saveSettings(e) {
     await chrome.storage.sync.set({ partdbUrl: url, partdbLocale: locale });
 
     const status = document.getElementById('save-status');
-    status.textContent = 'Settings saved!';
+    status.textContent = chrome.i18n.getMessage('options_saved');
     status.className = 'save-status success';
     status.classList.remove('hidden');
 
@@ -32,13 +34,13 @@ async function testConnection() {
     const locale = document.getElementById('partdb-locale').value.trim() || 'en';
 
     if (!url) {
-        showTestResult('error', 'Please enter a Part-DB URL first.');
+        showTestResult('error', chrome.i18n.getMessage('options_error_no_url'));
         return;
     }
 
     const resultEl = document.getElementById('test-result');
     resultEl.className = 'test-result loading';
-    resultEl.textContent = 'Testing connection…';
+    resultEl.textContent = chrome.i18n.getMessage('options_testing');
     resultEl.classList.remove('hidden');
 
     try {
@@ -51,15 +53,15 @@ async function testConnection() {
 
         if (response.ok || response.status === 405 || response.status === 401 || response.status === 403) {
             if (response.status === 401 || response.status === 403) {
-                showTestResult('error', `Part-DB is reachable, but you are not logged in (HTTP ${response.status}). Open Part-DB and log in, then try again.`);
+                showTestResult('error', chrome.i18n.getMessage('options_error_not_logged_in', [String(response.status)]));
             } else {
-                showTestResult('success', `Connection successful! Part-DB is reachable at ${url}`);
+                showTestResult('success', chrome.i18n.getMessage('options_success_connection', [url]));
             }
         } else {
-            showTestResult('error', `Unexpected response: HTTP ${response.status}. Check your URL and locale.`);
+            showTestResult('error', chrome.i18n.getMessage('options_error_unexpected_response', [String(response.status)]));
         }
     } catch (err) {
-        showTestResult('error', `Could not reach Part-DB: ${err.message}. Check the URL and ensure Part-DB is running.`);
+        showTestResult('error', chrome.i18n.getMessage('options_error_cannot_reach', [err.message]));
     }
 }
 

@@ -1,0 +1,181 @@
+{
+  "ext_name": {
+    "message": "Part-DB Seitenübermittler"
+  },
+  "ext_description": {
+    "message": "Produktseiten an Part-DB übermitteln, um schnell elektronische Bauteile aus Web-Inhalten zu erstellen."
+  },
+  "ext_action_title": {
+    "message": "Seite an Part-DB senden"
+  },
+
+  "popup_title": {
+    "message": "Part-DB Browser-Plugin"
+  },
+  "popup_unconfigured_text": {
+    "message": "Die Part-DB-URL ist noch nicht konfiguriert."
+  },
+  "popup_open_settings": {
+    "message": "Einstellungen öffnen"
+  },
+  "popup_connected_to": {
+    "message": "Verbunden mit"
+  },
+  "popup_loading": {
+    "message": "Wird geladen …"
+  },
+  "popup_provider_label": {
+    "message": "Info-Anbieter"
+  },
+  "popup_provider_none": {
+    "message": "Keiner (nur speichern)"
+  },
+  "popup_submit_btn": {
+    "message": "Seite an Part-DB senden"
+  },
+  "popup_footer_settings": {
+    "message": "Einstellungen"
+  },
+  "popup_footer_open_partdb": {
+    "message": "Part-DB öffnen"
+  },
+  "popup_not_logged_in": {
+    "message": "Nicht bei Part-DB angemeldet."
+  },
+  "popup_open_login_page": {
+    "message": "Anmeldeseite öffnen"
+  },
+  "popup_error_network": {
+    "message": "Part-DB nicht erreichbar: $MESSAGE$",
+    "placeholders": {
+      "message": { "content": "$1", "example": "Netzwerkfehler" }
+    }
+  },
+  "popup_error_no_permission": {
+    "message": "Ihr Part-DB-Konto hat keine Berechtigung, das Browser-Plugin zu verwenden."
+  },
+  "popup_error_feature_disabled": {
+    "message": "Das Browser-Plugin-Feature ist in Part-DB deaktiviert. Ein Systemadministrator muss es in den Part-DB-Systemeinstellungen aktivieren."
+  },
+  "popup_error_http": {
+    "message": "Part-DB hat HTTP $CODE$ zurückgegeben.",
+    "placeholders": {
+      "code": { "content": "$1", "example": "500" }
+    }
+  },
+  "popup_error_load_providers": {
+    "message": "Anbieter konnten nicht geladen werden ($ERROR$).",
+    "placeholders": {
+      "error": { "content": "$1", "example": "unknown_error" }
+    }
+  },
+  "popup_reading_page": {
+    "message": "Seite wird gelesen …"
+  },
+  "popup_error_cannot_access": {
+    "message": "Auf diese Seite kann nicht zugegriffen werden. Versuchen Sie, die Seite neu zu laden."
+  },
+  "popup_error_page_too_large": {
+    "message": "Seite ist zu groß ($SIZE$ MB). Maximum ist 5 MB.",
+    "placeholders": {
+      "size": { "content": "$1", "example": "7,3" }
+    }
+  },
+  "popup_submitting": {
+    "message": "Wird an Part-DB übermittelt …"
+  },
+  "popup_success_provider": {
+    "message": "Bauteil-Erstellungsformular wurde in einem neuen Tab geöffnet!"
+  },
+  "popup_success_stored": {
+    "message": "Seite in Part-DB gespeichert."
+  },
+  "popup_error_no_config": {
+    "message": "Part-DB-URL ist nicht konfiguriert. Öffnen Sie die Einstellungen."
+  },
+  "popup_error_page_too_large_limit": {
+    "message": "Seiten-HTML überschreitet das 5-MB-Limit."
+  },
+  "popup_error_generic": {
+    "message": "Fehler: $ERROR$",
+    "placeholders": {
+      "error": { "content": "$1", "example": "unknown" }
+    }
+  },
+  "popup_error_unexpected": {
+    "message": "Unerwarteter Fehler: $ERROR$",
+    "placeholders": {
+      "error": { "content": "$1", "example": "TypeError" }
+    }
+  },
+
+  "options_title": {
+    "message": "Part-DB Browser-Plugin – Einstellungen"
+  },
+  "options_heading": {
+    "message": "Part-DB Browser-Plugin"
+  },
+  "options_subtitle": {
+    "message": "Einstellungen"
+  },
+  "options_connection_title": {
+    "message": "Verbindung"
+  },
+  "options_url_label": {
+    "message": "Part-DB Basis-URL"
+  },
+  "options_url_placeholder": {
+    "message": "https://partdb.beispiel.de"
+  },
+  "options_url_hint": {
+    "message": "Die Basis-URL Ihrer Part-DB-Instanz (ohne abschließenden Schrägstrich)."
+  },
+  "options_locale_label": {
+    "message": "Oberflächen-Sprache"
+  },
+  "options_locale_placeholder": {
+    "message": "de"
+  },
+  "options_locale_hint": {
+    "message": "Sprachcode in URLs (z. B. <code>de</code>, <code>en</code>, <code>fr</code>). Prüfen Sie Ihre Part-DB-URL, um den Code zu finden. Standard ist <code>en</code>."
+  },
+  "options_save_btn": {
+    "message": "Einstellungen speichern"
+  },
+  "options_test_btn": {
+    "message": "Verbindung testen"
+  },
+  "options_saved": {
+    "message": "Einstellungen gespeichert!"
+  },
+  "options_testing": {
+    "message": "Verbindung wird getestet …"
+  },
+  "options_error_no_url": {
+    "message": "Bitte geben Sie zuerst eine Part-DB-URL ein."
+  },
+  "options_error_not_logged_in": {
+    "message": "Part-DB ist erreichbar, aber Sie sind nicht angemeldet (HTTP $CODE$). Öffnen Sie Part-DB und melden Sie sich an, dann versuchen Sie es erneut.",
+    "placeholders": {
+      "code": { "content": "$1", "example": "401" }
+    }
+  },
+  "options_success_connection": {
+    "message": "Verbindung erfolgreich! Part-DB ist erreichbar unter $URL$",
+    "placeholders": {
+      "url": { "content": "$1", "example": "https://partdb.beispiel.de" }
+    }
+  },
+  "options_error_unexpected_response": {
+    "message": "Unerwartete Antwort: HTTP $CODE$. Überprüfen Sie Ihre URL und Sprache.",
+    "placeholders": {
+      "code": { "content": "$1", "example": "404" }
+    }
+  },
+  "options_error_cannot_reach": {
+    "message": "Part-DB nicht erreichbar: $ERROR$. Überprüfen Sie die URL und stellen Sie sicher, dass Part-DB läuft.",
+    "placeholders": {
+      "error": { "content": "$1", "example": "Failed to fetch" }
+    }
+  }
+}

@@ -1,0 +1,181 @@
+{
+  "ext_name": {
+    "message": "Part-DB Page Submitter"
+  },
+  "ext_description": {
+    "message": "Submit product pages to Part-DB to quickly create electronic parts from web content."
+  },
+  "ext_action_title": {
+    "message": "Submit page to Part-DB"
+  },
+
+  "popup_title": {
+    "message": "Part-DB Browser Plugin"
+  },
+  "popup_unconfigured_text": {
+    "message": "Part-DB URL is not configured yet."
+  },
+  "popup_open_settings": {
+    "message": "Open Settings"
+  },
+  "popup_connected_to": {
+    "message": "Connected to"
+  },
+  "popup_loading": {
+    "message": "Loading…"
+  },
+  "popup_provider_label": {
+    "message": "Info Provider"
+  },
+  "popup_provider_none": {
+    "message": "None (store only)"
+  },
+  "popup_submit_btn": {
+    "message": "Submit Page to Part-DB"
+  },
+  "popup_footer_settings": {
+    "message": "Settings"
+  },
+  "popup_footer_open_partdb": {
+    "message": "Open Part-DB"
+  },
+  "popup_not_logged_in": {
+    "message": "Not logged into Part-DB."
+  },
+  "popup_open_login_page": {
+    "message": "Open login page"
+  },
+  "popup_error_network": {
+    "message": "Could not reach Part-DB: $MESSAGE$",
+    "placeholders": {
+      "message": { "content": "$1", "example": "network error" }
+    }
+  },
+  "popup_error_no_permission": {
+    "message": "Your Part-DB account does not have permission to use the browser plugin."
+  },
+  "popup_error_feature_disabled": {
+    "message": "Browser plugin feature is disabled in Part-DB. A system administrator must enable it in the Part-DB system settings."
+  },
+  "popup_error_http": {
+    "message": "Part-DB returned HTTP $CODE$.",
+    "placeholders": {
+      "code": { "content": "$1", "example": "500" }
+    }
+  },
+  "popup_error_load_providers": {
+    "message": "Could not load providers ($ERROR$).",
+    "placeholders": {
+      "error": { "content": "$1", "example": "unknown_error" }
+    }
+  },
+  "popup_reading_page": {
+    "message": "Reading page…"
+  },
+  "popup_error_cannot_access": {
+    "message": "Cannot access this page. Try refreshing it."
+  },
+  "popup_error_page_too_large": {
+    "message": "Page is too large ($SIZE$ MB). Maximum is 5 MB.",
+    "placeholders": {
+      "size": { "content": "$1", "example": "7.3" }
+    }
+  },
+  "popup_submitting": {
+    "message": "Submitting to Part-DB…"
+  },
+  "popup_success_provider": {
+    "message": "Part creation form opened in a new tab!"
+  },
+  "popup_success_stored": {
+    "message": "Page stored in Part-DB."
+  },
+  "popup_error_no_config": {
+    "message": "Part-DB URL is not configured. Open Settings."
+  },
+  "popup_error_page_too_large_limit": {
+    "message": "Page HTML exceeds the 5 MB limit."
+  },
+  "popup_error_generic": {
+    "message": "Error: $ERROR$",
+    "placeholders": {
+      "error": { "content": "$1", "example": "unknown" }
+    }
+  },
+  "popup_error_unexpected": {
+    "message": "Unexpected error: $ERROR$",
+    "placeholders": {
+      "error": { "content": "$1", "example": "TypeError" }
+    }
+  },
+
+  "options_title": {
+    "message": "Part-DB Browser Plugin – Settings"
+  },
+  "options_heading": {
+    "message": "Part-DB Browser Plugin"
+  },
+  "options_subtitle": {
+    "message": "Settings"
+  },
+  "options_connection_title": {
+    "message": "Connection"
+  },
+  "options_url_label": {
+    "message": "Part-DB base URL"
+  },
+  "options_url_placeholder": {
+    "message": "https://partdb.example.com"
+  },
+  "options_url_hint": {
+    "message": "The root URL of your Part-DB instance (without trailing slash)."
+  },
+  "options_locale_label": {
+    "message": "Interface locale"
+  },
+  "options_locale_placeholder": {
+    "message": "en"
+  },
+  "options_locale_hint": {
+    "message": "Language code used in URLs (e.g. <code>en</code>, <code>de</code>, <code>fr</code>). Check your Part-DB URL to find your locale. Defaults to <code>en</code>."
+  },
+  "options_save_btn": {
+    "message": "Save Settings"
+  },
+  "options_test_btn": {
+    "message": "Test Connection"
+  },
+  "options_saved": {
+    "message": "Settings saved!"
+  },
+  "options_testing": {
+    "message": "Testing connection…"
+  },
+  "options_error_no_url": {
+    "message": "Please enter a Part-DB URL first."
+  },
+  "options_error_not_logged_in": {
+    "message": "Part-DB is reachable, but you are not logged in (HTTP $CODE$). Open Part-DB and log in, then try again.",
+    "placeholders": {
+      "code": { "content": "$1", "example": "401" }
+    }
+  },
+  "options_success_connection": {
+    "message": "Connection successful! Part-DB is reachable at $URL$",
+    "placeholders": {
+      "url": { "content": "$1", "example": "https://partdb.example.com" }
+    }
+  },
+  "options_error_unexpected_response": {
+    "message": "Unexpected response: HTTP $CODE$. Check your URL and locale.",
+    "placeholders": {
+      "code": { "content": "$1", "example": "404" }
+    }
+  },
+  "options_error_cannot_reach": {
+    "message": "Could not reach Part-DB: $ERROR$. Check the URL and ensure Part-DB is running.",
+    "placeholders": {
+      "error": { "content": "$1", "example": "Failed to fetch" }
+    }
+  }
+}
