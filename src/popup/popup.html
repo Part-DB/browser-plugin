@@ -22,8 +22,22 @@
             <div class="url-badge">
                 <span class="url-label">Connected to</span>
                 <span id="partdb-url" class="url-value"></span>
+                <span id="instance-name" class="instance-name hidden"></span>
+                <span id="instance-user" class="instance-user hidden"></span>
             </div>
-            <button id="submit-btn" class="btn btn-primary btn-block">
+
+            <div id="info-section">
+                <div id="info-loading" class="info-loading">Loading…</div>
+                <div id="info-error" class="info-error hidden"></div>
+                <div id="provider-field" class="hidden">
+                    <label for="provider-select" class="field-label">Info Provider</label>
+                    <select id="provider-select" class="select">
+                        <option value="">None (store only)</option>
+                    </select>
+                </div>
+            </div>
+
+            <button id="submit-btn" class="btn btn-primary btn-block" disabled>
                 <span class="btn-icon">↑</span>
                 Submit Page to Part-DB
             </button>

@@ -74,6 +74,24 @@ main {
     max-width: 100%;
 }
 
+.instance-name {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #212529;
+    margin-top: 4px;
+}
+
+.instance-user {
+    display: block;
+    font-size: 11px;
+    color: #6c757d;
+    margin-top: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 /* Buttons */
 .btn {
     display: inline-flex;
@@ -116,6 +134,48 @@ main {
     color: #6c757d;
     text-align: center;
     font-size: 13px;
+}
+
+/* Provider field */
+.field-label {
+    display: block;
+    font-size: 11px;
+    color: #6c757d;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+
+.select {
+    width: 100%;
+    padding: 7px 10px;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    font-size: 13px;
+    color: #212529;
+    background: #fff;
+    cursor: pointer;
+}
+
+.select:focus {
+    outline: none;
+    border-color: #1a6635;
+}
+
+.info-loading {
+    font-size: 12px;
+    color: #6c757d;
+    text-align: center;
+    padding: 4px 0;
+}
+
+.info-error {
+    font-size: 12px;
+    color: #721c24;
+    background: #f8d7da;
+    border-radius: 6px;
+    padding: 7px 10px;
+    line-height: 1.4;
 }
 
 /* Status messages */
