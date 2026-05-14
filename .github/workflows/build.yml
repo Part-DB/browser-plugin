@@ -14,16 +14,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Generate PNG icons
-        run: python3 src/icons/generate.py
-
       - name: Package extension
         run: |
           cd src
-          zip -r ../partdb-browser-plugin.zip . \
-            --exclude "icons/generate.py" \
-            --exclude "icons/generate.sh" \
-            --exclude "icons/icon.svg"
+          zip -r ../partdb-browser-plugin.zip .
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -42,16 +36,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Generate PNG icons
-        run: python3 src/icons/generate.py
-
       - name: Package extension
         run: |
           cd src
-          zip -r ../partdb-browser-plugin.zip . \
-            --exclude "icons/generate.py" \
-            --exclude "icons/generate.sh" \
-            --exclude "icons/icon.svg"
+          zip -r ../partdb-browser-plugin.zip .
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
