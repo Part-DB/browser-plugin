@@ -61,9 +61,8 @@ Use the **Test Connection** button to verify the URL is reachable and you are lo
 | Permission | Reason |
 |------------|--------|
 | `storage` | Saves your Part-DB URL and locale setting |
-| `tabs` | Queries the active tab to read its URL; opens the Part-DB form in a new tab |
 | `activeTab` | Allows messaging the content script on the active page |
-| `host_permissions: <all_urls>` | Required to POST page HTML to your Part-DB instance with session cookies (cross-origin fetch with credentials) |
+| `optional_host_permissions: <all_urls>` | Required to POST page HTML to your Part-DB instance with session cookies (cross-origin fetch with credentials) |
 
 ## Building
 

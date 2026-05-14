@@ -48,9 +48,8 @@ The extension does not:
 | Permission | Why it is needed |
 |---|---|
 | `storage` | Save your server URL and locale preference |
-| `tabs` | Read the URL and title of the active tab; open the Part-DB login page when needed |
 | `activeTab` | Inject the content script to read the page HTML when you click Submit |
-| `host_permissions: <all_urls>` | Part-DB can be hosted at any URL; the extension must be able to reach whichever address you configure |
+| `optional_host_permissions: <all_urls>` | Part-DB can be hosted at any URL; the extension must be able to reach whichever address you configure |
 
 ## Contact
 
