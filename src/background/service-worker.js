@@ -33,8 +33,14 @@ async function handleGetInfo() {
     const endpoint = `${baseUrl}/${locale}/tools/info_providers/browser_info`;
     try {
         const response = await fetch(endpoint, { credentials: 'include' });
-        if (response.status === 401 || response.status === 403) {
+        if (response.status === 401) {
             return { success: false, error: 'not_logged_in', loginUrl: `${baseUrl}/${locale}/login` };
+        }
+        if (response.status === 403) {
+            return { success: false, error: 'no_permission' };
+        }
+        if (response.status === 451) {
+            return { success: false, error: 'feature_disabled' };
         }
         if (!response.ok) {
             return { success: false, error: 'http_error', statusCode: response.status };
@@ -67,8 +73,14 @@ async function handleSubmit(html, url, title, provider) {
             body: JSON.stringify({ html, url, title, provider: provider || null }),
         });
 
-        if (response.status === 401 || response.status === 403) {
+        if (response.status === 401) {
             return { success: false, error: 'not_logged_in', loginUrl: `${baseUrl}/${locale}/login` };
+        }
+        if (response.status === 403) {
+            return { success: false, error: 'no_permission' };
+        }
+        if (response.status === 451) {
+            return { success: false, error: 'feature_disabled' };
         }
         if (response.status === 413) {
             return { success: false, error: 'page_too_large' };

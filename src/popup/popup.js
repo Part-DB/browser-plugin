@@ -103,6 +103,10 @@ function infoErrorMessage(result) {
     switch (result.error) {
         case 'network_error':
             return `Could not reach Part-DB: ${result.message || 'network error'}`;
+        case 'no_permission':
+            return 'Your Part-DB account does not have permission to use the browser plugin.';
+        case 'feature_disabled':
+            return 'Browser plugin feature is disabled in Part-DB. A system administrator must enable it in the Part-DB system settings.';
         case 'http_error':
             return `Part-DB returned HTTP ${result.statusCode}.`;
         default:
@@ -176,6 +180,10 @@ function errorMessage(result) {
             return 'Page HTML exceeds the 5 MB limit.';
         case 'network_error':
             return `Could not reach Part-DB: ${result.message || 'network error'}`;
+        case 'no_permission':
+            return 'Your Part-DB account does not have permission to use the browser plugin.';
+        case 'feature_disabled':
+            return 'Browser plugin feature is disabled in Part-DB. A system administrator must enable it in the Part-DB system settings.';
         case 'http_error':
             return `Part-DB returned HTTP ${result.statusCode}.`;
         default:
