@@ -178,6 +178,12 @@ main {
     line-height: 1.4;
 }
 
+.info-error a,
+.status.error a {
+    color: inherit;
+    font-weight: 600;
+}
+
 /* Status messages */
 .status {
     padding: 8px 12px;

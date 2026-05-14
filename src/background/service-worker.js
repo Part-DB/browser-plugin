@@ -19,20 +19,31 @@ async function getConfig() {
     return { baseUrl, locale };
 }
 
+const INFO_CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+
 async function handleGetInfo() {
     const { baseUrl, locale } = await getConfig();
     if (!baseUrl) return { success: false, error: 'no_config' };
+
+    const { infoCache } = await chrome.storage.local.get({ infoCache: null });
+    if (infoCache && infoCache.baseUrl === baseUrl && Date.now() - infoCache.ts < INFO_CACHE_TTL) {
+        return { success: true, data: infoCache.data };
+    }
 
     const endpoint = `${baseUrl}/${locale}/tools/info_providers/browser_info`;
     try {
         const response = await fetch(endpoint, { credentials: 'include' });
         if (response.status === 401 || response.status === 403) {
-            return { success: false, error: 'not_logged_in' };
+            return { success: false, error: 'not_logged_in', loginUrl: `${baseUrl}/${locale}/login` };
         }
         if (!response.ok) {
             return { success: false, error: 'http_error', statusCode: response.status };
         }
+        if (!response.headers.get('content-type')?.includes('application/json')) {
+            return { success: false, error: 'not_logged_in', loginUrl: `${baseUrl}/${locale}/login` };
+        }
         const data = await response.json();
+        await chrome.storage.local.set({ infoCache: { baseUrl, data, ts: Date.now() } });
         return { success: true, data };
     } catch (err) {
         return { success: false, error: 'network_error', message: err.message };
@@ -57,7 +68,7 @@ async function handleSubmit(html, url, title, provider) {
         });
 
         if (response.status === 401 || response.status === 403) {
-            return { success: false, error: 'not_logged_in' };
+            return { success: false, error: 'not_logged_in', loginUrl: `${baseUrl}/${locale}/login` };
         }
         if (response.status === 413) {
             return { success: false, error: 'page_too_large' };
@@ -66,6 +77,9 @@ async function handleSubmit(html, url, title, provider) {
             return { success: false, error: 'http_error', statusCode: response.status };
         }
 
+        if (!response.headers.get('content-type')?.includes('application/json')) {
+            return { success: false, error: 'not_logged_in', loginUrl: `${baseUrl}/${locale}/login` };
+        }
         const data = await response.json();
         if (provider && data.redirect_url) {
             await chrome.tabs.create({ url: data.redirect_url });

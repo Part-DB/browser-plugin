@@ -38,7 +38,11 @@ async function loadProviders() {
     loadingEl.classList.add('hidden');
 
     if (!result.success) {
-        errorEl.textContent = infoErrorMessage(result);
+        if (result.loginUrl) {
+            appendLoginLink(errorEl, result.loginUrl);
+        } else {
+            errorEl.textContent = infoErrorMessage(result);
+        }
         errorEl.classList.remove('hidden');
         btn.disabled = false;
         return;
@@ -83,10 +87,20 @@ async function loadProviders() {
     btn.disabled = false;
 }
 
+function appendLoginLink(el, loginUrl) {
+    el.textContent = 'Not logged into Part-DB. ';
+    const link = document.createElement('a');
+    link.href = '#';
+    link.textContent = 'Open login page';
+    link.addEventListener('click', (e) => {
+        e.preventDefault();
+        chrome.tabs.create({ url: loginUrl });
+    });
+    el.appendChild(link);
+}
+
 function infoErrorMessage(result) {
     switch (result.error) {
-        case 'not_logged_in':
-            return 'Not logged into Part-DB. Log in first, then reopen this popup.';
         case 'network_error':
             return `Could not reach Part-DB: ${result.message || 'network error'}`;
         case 'http_error':
@@ -138,7 +152,14 @@ async function doSubmit() {
             setStatus('success', msg);
             setTimeout(() => window.close(), 1500);
         } else {
-            setStatus('error', errorMessage(result));
+            const statusEl = document.getElementById('status');
+            statusEl.className = 'status error';
+            statusEl.classList.remove('hidden');
+            if (result.loginUrl) {
+                appendLoginLink(statusEl, result.loginUrl);
+            } else {
+                statusEl.textContent = errorMessage(result);
+            }
             btn.disabled = false;
         }
     } catch (err) {
@@ -151,8 +172,6 @@ function errorMessage(result) {
     switch (result.error) {
         case 'no_config':
             return 'Part-DB URL is not configured. Open Settings.';
-        case 'not_logged_in':
-            return 'Not logged into Part-DB. Please log in first, then try again.';
         case 'page_too_large':
             return 'Page HTML exceeds the 5 MB limit.';
         case 'network_error':
