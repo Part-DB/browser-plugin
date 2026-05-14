@@ -32,11 +32,37 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('test-btn').addEventListener('click', testConnection);
 });
 
+async function requestHostPermission(url) {
+    let origin;
+    try {
+        origin = new URL(url).origin + '/*';
+    } catch {
+        return { ok: false, error: chrome.i18n.getMessage('options_error_invalid_url') };
+    }
+    const granted = await chrome.permissions.request({ origins: [origin] });
+    if (!granted) {
+        return { ok: false, error: chrome.i18n.getMessage('options_error_permission_denied') };
+    }
+    return { ok: true };
+}
+
 async function saveSettings(e) {
     e.preventDefault();
 
     const url = document.getElementById('partdb-url').value.trim().replace(/\/$/, '');
     const locale = document.getElementById('partdb-locale').value.trim() || 'en';
+
+    if (url) {
+        const perm = await requestHostPermission(url);
+        if (!perm.ok) {
+            const status = document.getElementById('save-status');
+            status.textContent = perm.error;
+            status.className = 'save-status error';
+            status.classList.remove('hidden');
+            setTimeout(() => status.classList.add('hidden'), 6000);
+            return;
+        }
+    }
 
     await chrome.storage.sync.set({ partdbUrl: url, partdbLocale: locale });
 
@@ -54,6 +80,12 @@ async function testConnection() {
 
     if (!url) {
         showTestResult('error', chrome.i18n.getMessage('options_error_no_url'));
+        return;
+    }
+
+    const perm = await requestHostPermission(url);
+    if (!perm.ok) {
+        showTestResult('error', perm.error);
         return;
     }
 

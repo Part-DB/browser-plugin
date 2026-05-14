@@ -127,7 +127,11 @@ async function doSubmit() {
 
         let pageData;
         try {
-            pageData = await chrome.tabs.sendMessage(tab.id, { action: 'getHTML' });
+            const results = await chrome.scripting.executeScript({
+                target: { tabId: tab.id },
+                func: () => ({ html: document.documentElement.outerHTML, url: location.href, title: document.title }),
+            });
+            pageData = results[0].result;
         } catch {
             setStatus('error', chrome.i18n.getMessage('popup_error_cannot_access'));
             btn.disabled = false;

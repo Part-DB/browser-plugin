@@ -186,5 +186,11 @@
     "placeholders": {
       "error": { "content": "$1", "example": "Failed to fetch" }
     }
+  },
+  "options_error_invalid_url": {
+    "message": "Please enter a valid URL (e.g. https://partdb.example.com)."
+  },
+  "options_error_permission_denied": {
+    "message": "Browser permission for this URL was denied. The extension needs it to reach your Part-DB server."
   }
 }

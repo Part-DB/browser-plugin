@@ -186,5 +186,11 @@
     "placeholders": {
       "error": { "content": "$1", "example": "Failed to fetch" }
     }
+  },
+  "options_error_invalid_url": {
+    "message": "Bitte geben Sie eine gültige URL ein (z. B. https://partdb.beispiel.de)."
+  },
+  "options_error_permission_denied": {
+    "message": "Browser-Berechtigung für diese URL wurde verweigert. Die Erweiterung benötigt sie, um Ihren Part-DB-Server zu erreichen."
   }
 }
