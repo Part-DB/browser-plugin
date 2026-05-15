@@ -1,3 +1,5 @@
+[Chrome Plugin](https://chromewebstore.google.com/detail/part-db-page-submitter/bckkfkpidiiibmjdhjakleoagjmepioi)
+
 # Part-DB Browser Plugin
 
 A browser extension for Chrome and Firefox that lets you submit any product page to [Part-DB](https://github.com/Part-DB/Part-DB-server) with one click. Part-DB then extracts part information from the page HTML (JSON-LD, OpenGraph, meta tags) and pre-fills the part creation form — no copy-pasting required.
@@ -18,7 +20,14 @@ The extension sends the already-loaded page HTML, so Part-DB never needs to fetc
 
 ## Installation
 
-### From a release (recommended)
+### From browser extension store (recommended)
+
+The extension is available in the Chrome Web Store and Firefox Add-ons store. Just search for "Part-DB Browser Plugin" or click the links below:
+
+* [Chrome Web Store](https://chromewebstore.google.com/detail/part-db-page-submitter/bckkfkpidiiibmjdhjakleoagjmepioi)
+* Firefox Addons-Store
+
+### Install unsigned version from this repository
 
 1. Download `partdb-browser-plugin.zip` from the [latest release](../../releases/latest)
 2. Extract the zip
@@ -33,14 +42,13 @@ The extension sends the already-loaded page HTML, so Part-DB never needs to fetc
 - Click *Load Temporary Add-on*
 - Select `manifest.json` inside the extracted folder
 
-> For persistent installation in Firefox, the extension needs to be signed via [AMO](https://addons.mozilla.org/).
+> For firefox the plugin is only temporary loaded and will be removed when you restart the browser.
 
 ### From source
 
 ```bash
 git clone https://github.com/Part-DB/part-db-browser-plugin.git
 cd part-db-browser-plugin
-python3 src/icons/generate.py   # generates PNG icons
 ```
 
 Then load the `src/` directory as an unpacked extension (see above).
@@ -69,15 +77,14 @@ No host permissions are requested at install time. The extension has no passive 
 
 ## Building
 
-The extension is plain JavaScript with no build step. PNG icons are generated from the SVG source:
+The extension is plain JavaScript with no build step. PNG icons can be generated from the SVG source:
 
 ```bash
-python3 src/icons/generate.py   # requires only Python 3 stdlib
 # or
-bash src/icons/generate.sh      # requires inkscape, rsvg-convert, or imagemagick
+bash generate_icons.sh      # requires inkscape, rsvg-convert, or imagemagick
 ```
 
-The GitHub Actions CI generates icons and packages the extension as a zip on every push and for every release tag (`v*`).
+The GitHub Actions CI packages the extension as a zip on every push and for every release tag (`v*`).
 
 ## Contributing
 
