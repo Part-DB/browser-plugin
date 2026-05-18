@@ -1,4 +1,4 @@
-[Chrome Plugin](https://chromewebstore.google.com/detail/part-db-page-submitter/bckkfkpidiiibmjdhjakleoagjmepioi)
+[Chrome Plugin](https://chromewebstore.google.com/detail/part-db-page-submitter/bckkfkpidiiibmjdhjakleoagjmepioi) | [Firefox Plugin](https://addons.mozilla.org/de/firefox/addon/part-db-page-submitter/)
 
 # Part-DB Browser Plugin
 
@@ -25,7 +25,7 @@ The extension sends the already-loaded page HTML, so Part-DB never needs to fetc
 The extension is available in the Chrome Web Store and Firefox Add-ons store. Just search for "Part-DB Browser Plugin" or click the links below:
 
 * [Chrome Web Store](https://chromewebstore.google.com/detail/part-db-page-submitter/bckkfkpidiiibmjdhjakleoagjmepioi)
-* Firefox Addons-Store
+* [Firefox Addons-Store](https://addons.mozilla.org/de/firefox/addon/part-db-page-submitter/)
 
 ### Install unsigned version from this repository
 
