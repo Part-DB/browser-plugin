@@ -19,6 +19,11 @@
         </div>
 
         <div id="state-configured" class="state hidden">
+            <div id="host-field" class="hidden">
+                <label for="host-select" class="field-label" data-i18n="popup_host_label">Instance</label>
+                <select id="host-select" class="select"></select>
+            </div>
+
             <div class="url-badge">
                 <span class="url-label" data-i18n="popup_connected_to">Connected to</span>
                 <span id="instance-name" class="instance-name hidden"></span>
@@ -52,6 +57,7 @@
     </footer>
 
     <script src="../i18n.js"></script>
+    <script src="../shared/host-storage.js"></script>
     <script src="popup.js"></script>
 </body>
 </html>

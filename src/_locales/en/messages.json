@@ -21,6 +21,9 @@
   "popup_connected_to": {
     "message": "Connected to"
   },
+  "popup_host_label": {
+    "message": "Instance"
+  },
   "popup_loading": {
     "message": "Loading…"
   },
@@ -119,7 +122,19 @@
     "message": "Settings"
   },
   "options_connection_title": {
-    "message": "Connection"
+    "message": "Part-DB Instances"
+  },
+  "options_add_host_btn": {
+    "message": "+ Add instance"
+  },
+  "options_no_hosts_hint": {
+    "message": "No instances configured yet. Click \"Add instance\" to get started."
+  },
+  "options_host_name_placeholder": {
+    "message": "e.g. Production"
+  },
+  "options_remove_host": {
+    "message": "Remove instance"
   },
   "options_url_label": {
     "message": "Part-DB base URL"

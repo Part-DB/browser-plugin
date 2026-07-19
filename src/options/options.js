@@ -2,35 +2,67 @@ function browserLocaleCode() {
     return chrome.i18n.getUILanguage().split(/[-_]/)[0].toLowerCase();
 }
 
+const suggestedLocale = browserLocaleCode();
+
 document.addEventListener('DOMContentLoaded', async () => {
     applyI18n();
 
-    const suggestedLocale = browserLocaleCode();
+    const hosts = await getHosts();
+    for (const host of hosts) {
+        addHostRow(host);
+    }
+    updateEmptyHint();
 
-    const { partdbUrl, partdbLocale } = await chrome.storage.sync.get({
-        partdbUrl: '',
-        partdbLocale: suggestedLocale,
+    document.getElementById('add-host-btn').addEventListener('click', () => {
+        addHostRow({ id: generateHostId(), name: '', url: '', locale: suggestedLocale }, { focus: true });
+        updateEmptyHint();
     });
 
-    document.getElementById('partdb-url').value = partdbUrl;
-    document.getElementById('partdb-locale').value = partdbLocale;
+    document.getElementById('save-btn').addEventListener('click', saveAllSettings);
+});
 
-    const suggestionEl = document.getElementById('locale-suggestion');
-    if (suggestionEl) {
-        suggestionEl.textContent = chrome.i18n.getMessage('options_locale_suggestion', [suggestedLocale]);
-        const useLink = document.getElementById('locale-use-suggestion');
-        if (useLink) {
-            useLink.textContent = chrome.i18n.getMessage('options_locale_use_suggestion');
-            useLink.addEventListener('click', (e) => {
-                e.preventDefault();
-                document.getElementById('partdb-locale').value = suggestedLocale;
-            });
-        }
+function updateEmptyHint() {
+    const hint = document.getElementById('no-hosts-hint');
+    const list = document.getElementById('hosts-list');
+    hint.classList.toggle('hidden', list.children.length > 0);
+}
+
+function addHostRow(host, { focus = false } = {}) {
+    const template = document.getElementById('host-row-template');
+    const fragment = template.content.cloneNode(true);
+    const rowEl = fragment.querySelector('.host-row');
+
+    applyI18n(rowEl);
+
+    rowEl.dataset.id = host.id;
+    rowEl.querySelector('.host-name').value = host.name || '';
+    rowEl.querySelector('.host-url').value = host.url || '';
+    rowEl.querySelector('.host-locale').value = host.locale || '';
+
+    const suggestionEl = rowEl.querySelector('.locale-suggestion');
+    suggestionEl.textContent = chrome.i18n.getMessage('options_locale_suggestion', [suggestedLocale]);
+    const useLink = rowEl.querySelector('.locale-use-suggestion');
+    useLink.textContent = chrome.i18n.getMessage('options_locale_use_suggestion');
+    useLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        rowEl.querySelector('.host-locale').value = suggestedLocale;
+    });
+
+    rowEl.querySelector('.host-remove').addEventListener('click', () => {
+        rowEl.remove();
+        updateEmptyHint();
+    });
+
+    rowEl.querySelector('.host-test').addEventListener('click', () => testHostRow(rowEl));
+
+    document.getElementById('hosts-list').appendChild(rowEl);
+
+    if (focus) {
+        rowEl.querySelector('.host-name').focus();
     }
 
-    document.getElementById('settings-form').addEventListener('submit', saveSettings);
-    document.getElementById('test-btn').addEventListener('click', testConnection);
-});
+    return rowEl;
+}
 
 async function requestHostPermission(url) {
     let origin;
@@ -46,53 +78,35 @@ async function requestHostPermission(url) {
     return { ok: true };
 }
 
-async function saveSettings(e) {
-    e.preventDefault();
-
-    const url = document.getElementById('partdb-url').value.trim().replace(/\/$/, '');
-    const locale = document.getElementById('partdb-locale').value.trim() || 'en';
-
-    if (url) {
-        const perm = await requestHostPermission(url);
-        if (!perm.ok) {
-            const status = document.getElementById('save-status');
-            status.textContent = perm.error;
-            status.className = 'save-status error';
-            status.classList.remove('hidden');
-            setTimeout(() => status.classList.add('hidden'), 6000);
-            return;
-        }
-    }
-
-    await chrome.storage.sync.set({ partdbUrl: url, partdbLocale: locale });
-
-    const status = document.getElementById('save-status');
-    status.textContent = chrome.i18n.getMessage('options_saved');
-    status.className = 'save-status success';
-    status.classList.remove('hidden');
-
-    setTimeout(() => status.classList.add('hidden'), 3000);
+function readHostRow(rowEl) {
+    const url = rowEl.querySelector('.host-url').value.trim().replace(/\/$/, '');
+    const name = rowEl.querySelector('.host-name').value.trim();
+    const locale = rowEl.querySelector('.host-locale').value.trim() || 'en';
+    return { id: rowEl.dataset.id, name, url, locale };
 }
 
-async function testConnection() {
-    const url = document.getElementById('partdb-url').value.trim().replace(/\/$/, '');
-    const locale = document.getElementById('partdb-locale').value.trim() || 'en';
+function showRowTestResult(rowEl, type, message) {
+    const el = rowEl.querySelector('.host-test-result');
+    el.textContent = message;
+    el.className = `test-result host-test-result ${type}`;
+    el.classList.remove('hidden');
+}
+
+async function testHostRow(rowEl) {
+    const { url, locale } = readHostRow(rowEl);
 
     if (!url) {
-        showTestResult('error', chrome.i18n.getMessage('options_error_no_url'));
+        showRowTestResult(rowEl, 'error', chrome.i18n.getMessage('options_error_no_url'));
         return;
     }
 
     const perm = await requestHostPermission(url);
     if (!perm.ok) {
-        showTestResult('error', perm.error);
+        showRowTestResult(rowEl, 'error', perm.error);
         return;
     }
 
-    const resultEl = document.getElementById('test-result');
-    resultEl.className = 'test-result loading';
-    resultEl.textContent = chrome.i18n.getMessage('options_testing');
-    resultEl.classList.remove('hidden');
+    showRowTestResult(rowEl, 'loading', chrome.i18n.getMessage('options_testing'));
 
     try {
         const endpoint = `${url}/${locale}/tools/info_providers/browser_html`;
@@ -104,21 +118,58 @@ async function testConnection() {
 
         if (response.ok || response.status === 405 || response.status === 401 || response.status === 403) {
             if (response.status === 401 || response.status === 403) {
-                showTestResult('error', chrome.i18n.getMessage('options_error_not_logged_in', [String(response.status)]));
+                showRowTestResult(rowEl, 'error', chrome.i18n.getMessage('options_error_not_logged_in', [String(response.status)]));
             } else {
-                showTestResult('success', chrome.i18n.getMessage('options_success_connection', [url]));
+                showRowTestResult(rowEl, 'success', chrome.i18n.getMessage('options_success_connection', [url]));
             }
         } else {
-            showTestResult('error', chrome.i18n.getMessage('options_error_unexpected_response', [String(response.status)]));
+            showRowTestResult(rowEl, 'error', chrome.i18n.getMessage('options_error_unexpected_response', [String(response.status)]));
         }
     } catch (err) {
-        showTestResult('error', chrome.i18n.getMessage('options_error_cannot_reach', [err.message]));
+        showRowTestResult(rowEl, 'error', chrome.i18n.getMessage('options_error_cannot_reach', [err.message]));
     }
 }
 
-function showTestResult(type, message) {
-    const el = document.getElementById('test-result');
-    el.textContent = message;
-    el.className = `test-result ${type}`;
-    el.classList.remove('hidden');
+function showSaveStatus(type, message) {
+    const status = document.getElementById('save-status');
+    status.textContent = message;
+    status.className = `save-status ${type}`;
+    status.classList.remove('hidden');
+    setTimeout(() => status.classList.add('hidden'), type === 'error' ? 6000 : 3000);
+}
+
+async function saveAllSettings() {
+    const rows = [...document.querySelectorAll('.host-row')];
+    const newHosts = [];
+
+    for (const rowEl of rows) {
+        const host = readHostRow(rowEl);
+        if (!host.url) {
+            showSaveStatus('error', chrome.i18n.getMessage('options_error_no_url'));
+            rowEl.querySelector('.host-url').focus();
+            return;
+        }
+        if (!host.name) {
+            host.name = hostLabelFromUrl(host.url);
+        }
+        newHosts.push(host);
+    }
+
+    for (const host of newHosts) {
+        const perm = await requestHostPermission(host.url);
+        if (!perm.ok) {
+            showSaveStatus('error', perm.error);
+            return;
+        }
+    }
+
+    await saveHosts(newHosts);
+
+    document.getElementById('hosts-list').innerHTML = '';
+    for (const host of newHosts) {
+        addHostRow(host);
+    }
+    updateEmptyHint();
+
+    showSaveStatus('success', chrome.i18n.getMessage('options_saved'));
 }

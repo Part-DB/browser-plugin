@@ -21,6 +21,9 @@
   "popup_connected_to": {
     "message": "Verbunden mit"
   },
+  "popup_host_label": {
+    "message": "Instanz"
+  },
   "popup_loading": {
     "message": "Wird geladen …"
   },
@@ -119,7 +122,19 @@
     "message": "Einstellungen"
   },
   "options_connection_title": {
-    "message": "Verbindung"
+    "message": "Part-DB-Instanzen"
+  },
+  "options_add_host_btn": {
+    "message": "+ Instanz hinzufügen"
+  },
+  "options_no_hosts_hint": {
+    "message": "Noch keine Instanzen konfiguriert. Klicken Sie auf „Instanz hinzufügen“, um zu starten."
+  },
+  "options_host_name_placeholder": {
+    "message": "z. B. Produktiv"
+  },
+  "options_remove_host": {
+    "message": "Instanz entfernen"
   },
   "options_url_label": {
     "message": "Part-DB Basis-URL"

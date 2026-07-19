@@ -16,56 +16,76 @@
             </div>
         </header>
 
-        <form id="settings-form">
-            <div class="card">
-                <h2 class="card-title" data-i18n="options_connection_title">Connection</h2>
-
-                <div class="form-group">
-                    <label for="partdb-url" data-i18n="options_url_label">Part-DB base URL</label>
-                    <input
-                        type="url"
-                        id="partdb-url"
-                        name="partdbUrl"
-                        data-i18n-placeholder="options_url_placeholder"
-                        placeholder="https://partdb.example.com"
-                        required
-                    >
-                    <p class="form-hint" data-i18n="options_url_hint">The root URL of your Part-DB instance (without trailing slash).</p>
-                </div>
-
-                <div class="form-group">
-                    <label for="partdb-locale" data-i18n="options_locale_label">Interface locale</label>
-                    <input
-                        type="text"
-                        id="partdb-locale"
-                        name="partdbLocale"
-                        data-i18n-placeholder="options_locale_placeholder"
-                        placeholder="en"
-                        maxlength="10"
-                        pattern="[a-z]{2}(_[A-Z]{2})?"
-                    >
-                    <p class="form-hint" data-i18n-html="options_locale_hint">
-                        Language code used in URLs (e.g. <code>en</code>, <code>de</code>, <code>fr</code>).
-                        Check your Part-DB URL to find your locale. Defaults to <code>en</code>.
-                    </p>
-                    <p class="form-hint">
-                        <span id="locale-suggestion"></span>
-                        <a href="#" id="locale-use-suggestion" class="locale-suggestion-link"></a>
-                    </p>
-                </div>
+        <div class="card">
+            <div class="card-title-row">
+                <h2 class="card-title" data-i18n="options_connection_title">Part-DB Instances</h2>
+                <button type="button" id="add-host-btn" class="btn btn-secondary btn-sm" data-i18n="options_add_host_btn">+ Add instance</button>
             </div>
 
-            <div class="form-actions">
-                <button type="submit" class="btn btn-primary" data-i18n="options_save_btn">Save Settings</button>
-                <button type="button" id="test-btn" class="btn btn-secondary" data-i18n="options_test_btn">Test Connection</button>
-                <span id="save-status" class="save-status hidden"></span>
-            </div>
-        </form>
+            <p id="no-hosts-hint" class="form-hint hidden" data-i18n="options_no_hosts_hint">No instances configured yet. Click "Add instance" to get started.</p>
 
-        <div id="test-result" class="test-result hidden"></div>
+            <div id="hosts-list"></div>
+        </div>
+
+        <div class="form-actions">
+            <button type="button" id="save-btn" class="btn btn-primary" data-i18n="options_save_btn">Save Settings</button>
+            <span id="save-status" class="save-status hidden"></span>
+        </div>
     </div>
 
+    <template id="host-row-template">
+        <div class="host-row">
+            <div class="host-row-header">
+                <input
+                    type="text"
+                    class="host-name"
+                    data-i18n-placeholder="options_host_name_placeholder"
+                    placeholder="e.g. Production"
+                >
+                <button type="button" class="icon-btn host-remove" data-i18n-title="options_remove_host" title="Remove">✕</button>
+            </div>
+
+            <div class="form-group">
+                <label data-i18n="options_url_label">Part-DB base URL</label>
+                <input
+                    type="url"
+                    class="host-url"
+                    data-i18n-placeholder="options_url_placeholder"
+                    placeholder="https://partdb.example.com"
+                    required
+                >
+                <p class="form-hint" data-i18n="options_url_hint">The root URL of your Part-DB instance (without trailing slash).</p>
+            </div>
+
+            <div class="form-group">
+                <label data-i18n="options_locale_label">Interface locale</label>
+                <input
+                    type="text"
+                    class="host-locale"
+                    data-i18n-placeholder="options_locale_placeholder"
+                    placeholder="en"
+                    maxlength="10"
+                    pattern="[a-z]{2}(_[A-Z]{2})?"
+                >
+                <p class="form-hint" data-i18n-html="options_locale_hint">
+                    Language code used in URLs (e.g. <code>en</code>, <code>de</code>, <code>fr</code>).
+                    Check your Part-DB URL to find your locale. Defaults to <code>en</code>.
+                </p>
+                <p class="form-hint">
+                    <span class="locale-suggestion"></span>
+                    <a href="#" class="locale-use-suggestion locale-suggestion-link"></a>
+                </p>
+            </div>
+
+            <div class="host-row-actions">
+                <button type="button" class="btn btn-secondary btn-sm host-test" data-i18n="options_test_btn">Test Connection</button>
+            </div>
+            <div class="host-test-result test-result hidden"></div>
+        </div>
+    </template>
+
     <script src="../i18n.js"></script>
+    <script src="../shared/host-storage.js"></script>
     <script src="options.js"></script>
 </body>
 </html>

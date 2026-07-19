@@ -1,33 +1,31 @@
+if (typeof importScripts === 'function') {
+    importScripts('../shared/host-storage.js');
+}
+
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.action === 'submit') {
-        handleSubmit(message.html, message.url, message.title, message.provider).then(sendResponse);
+        handleSubmit(message.hostId, message.html, message.url, message.title, message.provider).then(sendResponse);
         return true;
     }
     if (message.action === 'getInfo') {
-        handleGetInfo().then(sendResponse);
+        handleGetInfo(message.hostId).then(sendResponse);
         return true;
     }
 });
 
-async function getConfig() {
-    const { partdbUrl, partdbLocale } = await chrome.storage.sync.get({
-        partdbUrl: '',
-        partdbLocale: 'en',
-    });
-    const baseUrl = (partdbUrl || '').replace(/\/$/, '');
-    const locale = partdbLocale || 'en';
-    return { baseUrl, locale };
-}
-
 const INFO_CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 
-async function handleGetInfo() {
-    const { baseUrl, locale } = await getConfig();
-    if (!baseUrl) return { success: false, error: 'no_config' };
+async function handleGetInfo(hostId) {
+    const host = await getHostById(hostId);
+    if (!host) return { success: false, error: 'no_config' };
 
-    const { infoCache } = await chrome.storage.local.get({ infoCache: null });
-    if (infoCache && infoCache.baseUrl === baseUrl && Date.now() - infoCache.ts < INFO_CACHE_TTL) {
-        return { success: true, data: infoCache.data };
+    const baseUrl = host.url;
+    const locale = host.locale || 'en';
+
+    const { infoCacheByHost } = await chrome.storage.local.get({ infoCacheByHost: {} });
+    const cached = infoCacheByHost[hostId];
+    if (cached && cached.baseUrl === baseUrl && Date.now() - cached.ts < INFO_CACHE_TTL) {
+        return { success: true, data: cached.data };
     }
 
     const endpoint = `${baseUrl}/${locale}/tools/info_providers/browser_info`;
@@ -49,19 +47,22 @@ async function handleGetInfo() {
             return { success: false, error: 'not_logged_in', loginUrl: `${baseUrl}/${locale}/login` };
         }
         const data = await response.json();
-        await chrome.storage.local.set({ infoCache: { baseUrl, data, ts: Date.now() } });
+        infoCacheByHost[hostId] = { baseUrl, data, ts: Date.now() };
+        await chrome.storage.local.set({ infoCacheByHost });
         return { success: true, data };
     } catch (err) {
         return { success: false, error: 'network_error', message: err.message };
     }
 }
 
-async function handleSubmit(html, url, title, provider) {
-    const { baseUrl, locale } = await getConfig();
-
-    if (!baseUrl) {
+async function handleSubmit(hostId, html, url, title, provider) {
+    const host = await getHostById(hostId);
+    if (!host) {
         return { success: false, error: 'no_config' };
     }
+
+    const baseUrl = host.url;
+    const locale = host.locale || 'en';
 
     const endpoint = `${baseUrl}/${locale}/tools/info_providers/browser_html`;
 

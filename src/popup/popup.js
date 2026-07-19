@@ -1,9 +1,10 @@
 const MAX_HTML_BYTES = 5 * 1024 * 1024; // 5 MB
 
+let hosts = [];
+let activeHost = null;
+
 document.addEventListener('DOMContentLoaded', async () => {
     applyI18n();
-
-    const { partdbUrl } = await chrome.storage.sync.get({ partdbUrl: '' });
 
     document.getElementById('open-options').addEventListener('click', () => {
         chrome.runtime.openOptionsPage();
@@ -15,19 +16,72 @@ document.addEventListener('DOMContentLoaded', async () => {
         window.close();
     });
 
-    if (!partdbUrl) {
+    hosts = await getHosts();
+
+    if (hosts.length === 0) {
         show('state-unconfigured');
         return;
     }
 
     show('state-configured');
-    document.getElementById('partdb-url').textContent = stripScheme(partdbUrl);
-    document.getElementById('footer-partdb').href = partdbUrl;
+
+    const lastHostId = await getLastHostId();
+    activeHost = hosts.find((h) => h.id === lastHostId) || hosts[0];
+
+    setupHostSelector();
+    applyActiveHost();
 
     document.getElementById('submit-btn').addEventListener('click', doSubmit);
 
     await loadProviders();
 });
+
+function setupHostSelector() {
+    const fieldEl = document.getElementById('host-field');
+    const select = document.getElementById('host-select');
+
+    select.innerHTML = '';
+    for (const h of hosts) {
+        const opt = document.createElement('option');
+        opt.value = h.id;
+        opt.textContent = h.name || stripScheme(h.url);
+        select.appendChild(opt);
+    }
+    select.value = activeHost.id;
+
+    fieldEl.classList.toggle('hidden', hosts.length <= 1);
+
+    select.addEventListener('change', async () => {
+        activeHost = hosts.find((h) => h.id === select.value);
+        await setLastHostId(activeHost.id);
+        applyActiveHost();
+        resetProviderState();
+        await loadProviders();
+    });
+}
+
+function applyActiveHost() {
+    document.getElementById('partdb-url').textContent = stripScheme(activeHost.url);
+    document.getElementById('footer-partdb').href = activeHost.url;
+    document.getElementById('instance-name').classList.add('hidden');
+    document.getElementById('instance-user').classList.add('hidden');
+}
+
+function resetProviderState() {
+    document.getElementById('info-loading').classList.remove('hidden');
+    document.getElementById('info-error').classList.add('hidden');
+    document.getElementById('provider-field').classList.add('hidden');
+
+    const select = document.getElementById('provider-select');
+    select.innerHTML = '';
+    const noneOpt = document.createElement('option');
+    noneOpt.value = '';
+    noneOpt.textContent = chrome.i18n.getMessage('popup_provider_none');
+    select.appendChild(noneOpt);
+
+    document.getElementById('submit-btn').disabled = true;
+    document.getElementById('status').classList.add('hidden');
+}
 
 async function loadProviders() {
     const loadingEl = document.getElementById('info-loading');
@@ -35,7 +89,7 @@ async function loadProviders() {
     const fieldEl = document.getElementById('provider-field');
     const btn = document.getElementById('submit-btn');
 
-    const result = await chrome.runtime.sendMessage({ action: 'getInfo' });
+    const result = await chrome.runtime.sendMessage({ action: 'getInfo', hostId: activeHost.id });
 
     loadingEl.classList.add('hidden');
 
@@ -77,14 +131,17 @@ async function loadProviders() {
         fieldEl.classList.remove('hidden');
     }
 
-    const { lastProvider } = await chrome.storage.local.get({ lastProvider: '' });
-    if ([...select.options].some(o => o.value === lastProvider)) {
+    const { lastProviderByHost } = await chrome.storage.local.get({ lastProviderByHost: {} });
+    const lastProvider = lastProviderByHost[activeHost.id] || '';
+    if ([...select.options].some((o) => o.value === lastProvider)) {
         select.value = lastProvider;
     }
 
-    select.addEventListener('change', () => {
-        chrome.storage.local.set({ lastProvider: select.value });
-    });
+    select.onchange = async () => {
+        const { lastProviderByHost } = await chrome.storage.local.get({ lastProviderByHost: {} });
+        lastProviderByHost[activeHost.id] = select.value;
+        await chrome.storage.local.set({ lastProviderByHost });
+    };
 
     btn.disabled = false;
 }
@@ -149,6 +206,7 @@ async function doSubmit() {
 
         const result = await chrome.runtime.sendMessage({
             action: 'submit',
+            hostId: activeHost.id,
             html: pageData.html,
             url: pageData.url,
             title: pageData.title,
@@ -205,7 +263,7 @@ function setStatus(type, text) {
 }
 
 function show(id) {
-    document.querySelectorAll('.state').forEach(el => el.classList.add('hidden'));
+    document.querySelectorAll('.state').forEach((el) => el.classList.add('hidden'));
     document.getElementById(id).classList.remove('hidden');
 }
 

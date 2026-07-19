@@ -15,10 +15,10 @@ The extension stores the following data in your browser using the standard WebEx
 
 | Storage | Key | Contents |
 |---|---|---|
-| `storage.sync` | `partdbUrl` | The URL of your Part-DB server |
-| `storage.sync` | `partdbLocale` | Your preferred Part-DB interface language |
-| `storage.local` | `infoCache` | A short-lived cache (5 minutes) of the provider list fetched from your Part-DB server |
-| `storage.local` | `lastProvider` | The last info-provider you selected in the popup |
+| `storage.sync` | `hosts` | The list of Part-DB instances you configured, each with a name, URL, and interface language |
+| `storage.local` | `lastHostId` | The instance you last selected in the popup, so it is remembered next time |
+| `storage.local` | `infoCacheByHost` | A short-lived cache (5 minutes), per instance, of the provider list fetched from your Part-DB server |
+| `storage.local` | `lastProviderByHost` | The last info-provider you selected in the popup, per instance |
 
 `storage.sync` data is synced across your browser profile by your browser vendor (e.g., Google or Mozilla) if you have browser sync enabled. This is subject to your browser vendor's own privacy policy. The extension itself has no control over or visibility into this sync.
 
@@ -49,12 +49,12 @@ The extension does not:
 
 | Permission | Type | Why it is needed |
 |---|---|---|
-| `storage` | Required | Save your server URL and locale preference |
+| `storage` | Required | Save your configured server URL(s) and locale preference(s) |
 | `activeTab` | Required | Read the page HTML on demand when you click Submit |
 | `scripting` | Required | Execute the page-reading code in the active tab when you click Submit |
-| Host access to your Part-DB URL | Optional — granted when you save your server URL | Allows the extension to make requests to your Part-DB server; scoped to exactly the URL you configure |
+| Host access to your Part-DB URL(s) | Optional — granted when you save a server URL | Allows the extension to make requests to your Part-DB server; scoped to exactly the URL(s) you configure |
 
-The extension requests no host permissions at install time. When you save your Part-DB server URL in the settings, the browser will ask you to grant access to that specific address only.
+The extension requests no host permissions at install time. When you save a Part-DB server URL in the settings, the browser will ask you to grant access to that specific address only.
 
 ## Contact
 

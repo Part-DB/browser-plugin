@@ -55,23 +55,26 @@ Then load the `src/` directory as an unpacked extension (see above).
 
 ## Configuration
 
-After installing, click the extension icon and then **Open Settings** (or right-click the icon → *Options*):
+After installing, click the extension icon and then **Open Settings** (or right-click the icon → *Options*). You can configure one or more Part-DB instances; click **+ Add instance** to add another.
 
 | Setting | Description |
 |---------|-------------|
+| **Name** | Optional label to tell instances apart, e.g. `Production`. Defaults to the hostname if left blank. |
 | **Part-DB base URL** | Root URL of your Part-DB instance, e.g. `https://partdb.example.com` |
 | **Interface locale** | Language code used in Part-DB URLs, e.g. `en`, `de`, `fr`. Check your browser's address bar when using Part-DB. |
 
-Use the **Test Connection** button to verify the URL is reachable and you are logged in.
+Use the **Test Connection** button on an instance to verify its URL is reachable and you are logged in.
+
+If you configure more than one instance, the popup shows an **Instance** dropdown to pick which one to submit to — it remembers your last choice for next time.
 
 ## Permissions
 
 | Permission | Type | Reason |
 |------------|------|--------|
-| `storage` | Required | Saves your Part-DB URL and locale setting |
+| `storage` | Required | Saves your configured Part-DB instances and settings |
 | `activeTab` | Required | Reads the page HTML on demand when you click Submit |
 | `scripting` | Required | Executes the page-reading code in the active tab |
-| Host access to your Part-DB URL | Optional — granted when you save your server URL | Required to reach your Part-DB instance; scoped to exactly the URL you configure |
+| Host access to your Part-DB URL(s) | Optional — granted when you save a server URL | Required to reach your Part-DB instance(s); scoped to exactly the URLs you configure |
 
 No host permissions are requested at install time. The extension has no passive presence on web pages — it reads page content only at the moment you click Submit.
 
