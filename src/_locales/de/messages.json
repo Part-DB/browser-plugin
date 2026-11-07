@@ -207,5 +207,7 @@
   },
   "options_error_permission_denied": {
     "message": "Browser-Berechtigung für diese URL wurde verweigert. Die Erweiterung benötigt sie, um Ihren Part-DB-Server zu erreichen."
-  }
+  },
+  "popup_error_missing_host_permission": {"message": "Die Erweiterung darf nicht auf diesen Part-DB-Server zugreifen. Öffnen Sie die Einstellungen und klicken Sie auf „Einstellungen speichern“, um die Berechtigung erneut zu erteilen."},
+  "options_error_permission_failed": {"message": "Browser-Berechtigung konnte nicht angefordert werden: $ERROR$", "placeholders": {"error": {"content": "$1", "example": "Invalid pattern"}}}
 }

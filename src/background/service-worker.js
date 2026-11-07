@@ -51,7 +51,7 @@ async function handleGetInfo(hostId) {
         await chrome.storage.local.set({ infoCacheByHost });
         return { success: true, data };
     } catch (err) {
-        return { success: false, error: 'network_error', message: err.message };
+        return networkErrorResult(baseUrl, err);
     }
 }
 
@@ -99,6 +99,15 @@ async function handleSubmit(hostId, html, url, title, provider) {
         }
         return { success: true };
     } catch (err) {
-        return { success: false, error: 'network_error', message: err.message };
+        return networkErrorResult(baseUrl, err);
     }
+}
+
+async function networkErrorResult(baseUrl, err) {
+    // Without host permission the browser blocks the request and only reports a generic network error.
+    // Detect this case to give the user an actionable hint.
+    if (!(await hasHostPermission(baseUrl))) {
+        return { success: false, error: 'missing_host_permission' };
+    }
+    return { success: false, error: 'network_error', message: err.message };
 }
