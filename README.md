@@ -74,7 +74,7 @@ If you configure more than one instance, the popup shows an **Instance** dropdow
 | `storage` | Required | Saves your configured Part-DB instances and settings |
 | `activeTab` | Required | Reads the page HTML on demand when you click Submit |
 | `scripting` | Required | Executes the page-reading code in the active tab |
-| Host access to your Part-DB URL(s) | Optional — granted when you save a server URL | Required to reach your Part-DB instance(s); scoped to exactly the URLs you configure |
+| Host access to your Part-DB URL(s) | Optional — granted when you save a server URL | Required to reach your Part-DB instance(s); scoped to the hosts of the URLs you configure (all ports of that host, as Firefox does not support ports in host permissions) |
 
 No host permissions are requested at install time. The extension has no passive presence on web pages — it reads page content only at the moment you click Submit.
 

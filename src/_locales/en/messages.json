@@ -207,5 +207,7 @@
   },
   "options_error_permission_denied": {
     "message": "Browser permission for this URL was denied. The extension needs it to reach your Part-DB server."
-  }
+  },
+  "popup_error_missing_host_permission": {"message": "The extension is not allowed to access this Part-DB server. Open the settings and click “Save Settings” to grant the permission again."},
+  "options_error_permission_failed": {"message": "Could not request browser permission: $ERROR$", "placeholders": {"error": {"content": "$1", "example": "Invalid pattern"}}}
 }

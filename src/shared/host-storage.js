@@ -61,3 +61,24 @@ async function getLastHostId() {
 async function setLastHostId(id) {
     await chrome.storage.local.set({ lastHostId: id });
 }
+
+/**
+ * Builds the host permission match pattern for a Part-DB base URL.
+ *
+ * The port is deliberately left out: Firefox does not support ports in match patterns, so a pattern like
+ * "http://192.168.1.10:8080/*" never matches any request there, and fetches to Part-DB instances on
+ * non-standard ports fail with "NetworkError when attempting to fetch resource".
+ * A pattern without a port matches every port of that host in both Chrome and Firefox.
+ */
+function hostPermissionPattern(url) {
+    const parsed = new URL(url);
+    return `${parsed.protocol}//${parsed.hostname}/*`;
+}
+
+async function hasHostPermission(url) {
+    try {
+        return await chrome.permissions.contains({ origins: [hostPermissionPattern(url)] });
+    } catch {
+        return false;
+    }
+}

@@ -162,6 +162,8 @@ function infoErrorMessage(result) {
     switch (result.error) {
         case 'network_error':
             return chrome.i18n.getMessage('popup_error_network', [result.message || 'network error']);
+        case 'missing_host_permission':
+            return chrome.i18n.getMessage('popup_error_missing_host_permission');
         case 'no_permission':
             return chrome.i18n.getMessage('popup_error_no_permission');
         case 'feature_disabled':
@@ -244,6 +246,8 @@ function errorMessage(result) {
             return chrome.i18n.getMessage('popup_error_page_too_large_limit');
         case 'network_error':
             return chrome.i18n.getMessage('popup_error_network', [result.message || 'network error']);
+        case 'missing_host_permission':
+            return chrome.i18n.getMessage('popup_error_missing_host_permission');
         case 'no_permission':
             return chrome.i18n.getMessage('popup_error_no_permission');
         case 'feature_disabled':

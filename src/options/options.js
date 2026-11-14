@@ -64,14 +64,24 @@ function addHostRow(host, { focus = false } = {}) {
     return rowEl;
 }
 
-async function requestHostPermission(url) {
-    let origin;
+/**
+ * Requests host permissions for all given URLs with a single permissions.request() call.
+ * This must be called synchronously from the user input handler (before any await), as Firefox only allows
+ * permissions.request() while handling a user action, and that context is lost after the first await.
+ */
+async function requestHostPermissions(urls) {
+    let origins;
     try {
-        origin = new URL(url).origin + '/*';
+        origins = [...new Set(urls.map(hostPermissionPattern))];
     } catch {
         return { ok: false, error: chrome.i18n.getMessage('options_error_invalid_url') };
     }
-    const granted = await chrome.permissions.request({ origins: [origin] });
+    let granted;
+    try {
+        granted = await chrome.permissions.request({ origins });
+    } catch (err) {
+        return { ok: false, error: chrome.i18n.getMessage('options_error_permission_failed', [err.message]) };
+    }
     if (!granted) {
         return { ok: false, error: chrome.i18n.getMessage('options_error_permission_denied') };
     }
@@ -100,7 +110,7 @@ async function testHostRow(rowEl) {
         return;
     }
 
-    const perm = await requestHostPermission(url);
+    const perm = await requestHostPermissions([url]);
     if (!perm.ok) {
         showRowTestResult(rowEl, 'error', perm.error);
         return;
@@ -155,8 +165,8 @@ async function saveAllSettings() {
         newHosts.push(host);
     }
 
-    for (const host of newHosts) {
-        const perm = await requestHostPermission(host.url);
+    if (newHosts.length > 0) {
+        const perm = await requestHostPermissions(newHosts.map((h) => h.url));
         if (!perm.ok) {
             showSaveStatus('error', perm.error);
             return;
